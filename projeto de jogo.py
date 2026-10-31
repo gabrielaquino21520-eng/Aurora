@@ -1,4 +1,5 @@
 import random
+# agora sim porra !
 
 
 #A função coleta o dado e manda para o return=======
