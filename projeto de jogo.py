@@ -5,7 +5,7 @@ import random
 #A função coleta o dado e manda para o return=======
 
 def Jogador_name():
-    Name_sans = input("Olá jogador digite um nome para seu perssonagem: \n")
+    Name_sans = input("Olá jogador digite um nome para seu personagem: \n")
     print("seu nome é", Name_sans)
     return Name_sans
 
