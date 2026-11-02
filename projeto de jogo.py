@@ -18,13 +18,14 @@ def script_choice():
     print("========escolha sua classe========")
     while True:
         print("1)-Caçador 2)-Feiteceiro 3)-Monge")
-        classe = (int(input()))
-        if classe > 3 or classe < 1:
-            print("escolha uma classe para continuar !!!")
-        else:
-            break
-
-    #MELHORAR, caso o jogador digite uma letra aqui ferrou
+        try:
+            classe = (int(input()))
+            if classe > 3 or classe < 1:
+                print("escolha uma classe para continuar !!!")
+            else:
+                break
+        except ValueError:
+            print("escolha uma opção valida !!!")
 
     return classe
 
@@ -44,6 +45,7 @@ class classe_player():
             self.acc = 15
             self.life = 100
             self.forca = (random.randint(1, 11))
+            self.magic = 0
 
         elif classe == 2:
             self.type = "Feiteceiro"
@@ -51,6 +53,7 @@ class classe_player():
             self.xp = 0
             self.acc = 7
             self.life = 100
+            self.forca = 0
             self.magic = (random.randint(1, 12))
 
         elif classe == 3:
@@ -58,9 +61,9 @@ class classe_player():
             self.descri = "Monge esta além do plano atual, seu sentido fora desse mundo é oque o torna uma presença poderosa"
             self.xp = 0
             self.acc = 10
-            self.Life = 100
+            self.life = 100
+            self.forca = 0
             self.magic = (random.randint(1, 5))
-
 
 class monster():
     def __init__(self, num):
@@ -71,7 +74,7 @@ class monster():
          self.name = "lobo solitario"
          self.life = 64
          self.xp = 12
-         self.dano_normal = random.randint(3, 7)
+         self.acc = random.randint(3, 7)
          self.dano_critico = 10
          self.condicao = "sangrando"
 
@@ -80,23 +83,18 @@ class monster():
          self.name = 'CONDE DRACULA'
          self.life = 210
          self.xp = 75
-         self.dano_normal = random.randint(8, 17)
+         self.acc = random.randint(8, 17)
          self.dano_critico = random.randint(18, 28)
+         self.condicao = "sangrando"
 
      elif num == 3:
          self.ship = 'Cósmico'
-         self.name = 'A sombra na água'
+         self.name = 'Mãe Hydra'
          self.life = 350
          self.xp = 85
-         self.dano_normal = 23, 30
+         self.acc = 23, 30
          self.dano_critico = random.randint(18, 28)
-
-
-
-
-
-
-
+         self.condicao = "medo"
 
 def D10():
     D10 = random.randint(1, 10)
@@ -109,7 +107,6 @@ def D10():
 
     return D10
 
-
 def D6():
     D6 = random.randint(1, 6)
     if D6 == 3 or D6 == 2:
@@ -121,7 +118,6 @@ def D6():
         int(D6)
 
     return D6
-
 
 def batalha_person():
     ec = ["Ataque", "Abilidade", "Checar", "Poções"]
@@ -143,7 +139,7 @@ def batalha_person():
                 dano_real = dano + Jogador_1.forca
                 print("você da", dano_real, "de dano")
 
-            elif dano > 1 and Monster.ship == 'Animal' and Jogador_1.type == "Caçador":
+            elif dano > 1 and Monster.ship == 'Animal':
                 dano_real = dano + Jogador_1.acc + Jogador_1.forca
                 print("Com uma força quase mostruosa você desfere um ataque sanguenario")
 
@@ -168,7 +164,7 @@ def batalha_person():
                 print("você da", dano_real, "de dano em", Monster.name)
 
 
-            elif dano > 1 and Monster.ship == 'Mistico' and Jogador_1.type == "Feiticeiro":
+            elif dano > 1 and Monster.ship == 'Mistico':
                 dano_real = dano + Jogador_1.acc + Jogador_1.magic + Jogador_1.magic
                 print("Seu conhecimento materializa em uma onda de PODER BRUTO")
                 Monster.life -= dano_real
@@ -190,20 +186,19 @@ def batalha_person():
                 print("você da", dano_real, "de dano em", Monster.name)
 
             elif dano > 3:
-                rint("Crítico de muita sorte \n")
+                print("Crítico de muita sorte \n")
                 dano_real = dano + Jogador_1.acc or Jogador_1.magic
                 Monster.life -= dano_real
                 print("você da", dano_real, "de dano em", Monster.name)
 
 
-            elif dano > 1 and Monster.ship == 'Cósmico' and Jogador_1.type == "Monge":
+            elif dano > 1 and Monster.ship == 'Cósmico':
                 dano_real = dano + Jogador_1.acc + Jogador_1.magic
                 Monster.life -= dano_real
                 print("você da", dano_real, "de dano em", Monster.name)
                 # restaurar vida
                 Jogador_1.Life += dano_real
                 print("sua vida é restaurada", Jogador_1.life)
-
                 print("Você trancende e sua luz desfere uma luz restaura todo seu ser")
 
                 print(dano_real, "com efeito")
@@ -224,14 +219,30 @@ def batalha_person():
     else:
         print("tenho que fazer ainda")
 
-
 def ataque_monster():
     dano = D10()
+    print(Monster.name," te atacou \n")
 
+    if dano == 3 or dano == 2:
+        print("Bem sucedido \n")
+        dano_real = dano + Monster.acc
+        dano_real -= Jogador_1.life
+        print("você recebeu", dano_real, "de dano")
 
+    elif dano > 3:
+        print("Crítico de muita sorte \n")
+        dano_real = dano + Jogador_1.forca
+        print("você recebeu", dano_real, "de dano")
 
+    elif dano > 1 and Monster.ship == 'Animal':
+        dano_real = dano + Jogador_1.acc + Jogador_1.forca
+        print("Com uma força quase mostruosa você desfere um ataque sanguenario")
 
+        print(dano_real, "com efeito")
 
+    else:
+        print("Mal sucedido \n")
+        print("Você desvia")
 
 
 # valor sendo recebido pelo return, atraz do "Name_sans"======
