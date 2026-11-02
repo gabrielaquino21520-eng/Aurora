@@ -119,105 +119,109 @@ def D6():
 
     return D6
 
-def batalha_person():
-    ec = ["Ataque", "Abilidade", "Checar", "Poções"]
-    print('1 -', ec[0], '2 -', ec[1], "\n" '3 -', ec[2], '4 -', ec[3], "\n")
-    escc = input(int())
-    if escc == 1:
-        dano = D6()
+class batalha_person():
+    def __init__(self, Jogador_1, Monster):
+        self.Jogador_1 = Jogador_1
+        self.Monster = Monster
 
-        # Ataques do caçador
-        if Jogador_1.type == "Caçador":
-            if dano == 3 or dano == 2:
-                print("Bem sucedido \n")
-                dano_real = dano + Jogador_1.acc
-                dano_real -= Monster.life
-                print("você da", dano_real, "de dano em", Monster.name)
+    def batalha(self):
+        ec = ["Ataque", "Abilidade", "Checar", "Poções"]
+        print('1 -', ec[0], '2 -', ec[1], "\n" '3 -', ec[2], '4 -', ec[3], "\n")
+        escc = input(int())
+        if escc == 1:
+            dano = D6()
+            # Ataques do caçador
+            if Jogador_1.type == "Caçador":
+                if dano == 3 or dano == 2:
+                    print("Bem sucedido \n")
+                    dano_real = dano + Jogador_1.acc
+                    dano_real -= Monster.life
+                    print("você da", dano_real, "de dano em", Monster.name)
 
-            elif dano > 3:
-                print("Crítico de muita sorte \n")
-                dano_real = dano + Jogador_1.forca
-                print("você da", dano_real, "de dano")
+                elif dano > 3:
+                    print("Crítico de muita sorte \n")
+                    dano_real = dano + Jogador_1.forca
+                    print("você da", dano_real, "de dano")
 
-            elif dano > 1 and Monster.ship == 'Animal':
-                dano_real = dano + Jogador_1.acc + Jogador_1.forca
-                print("Com uma força quase mostruosa você desfere um ataque sanguenario")
+                elif dano > 1 and Monster.ship == 'Animal':
+                    dano_real = dano + Jogador_1.acc + Jogador_1.forca
+                    print("Com uma força quase mostruosa você desfere um ataque sanguenario")
 
-                print(dano_real, "com efeito")
+                    print(dano_real, "com efeito")
 
-            else:
-                print("Mal sucedido \n")
-                print("Você erra o ataque...")
+                else:
+                    print("Mal sucedido \n")
+                    print("Você erra o ataque...")
 
-        # Ataques do feiticeiro
-        elif Jogador_1.type == "Feiticeiro":
-            if dano == 3 or dano == 2:
+            # Ataques do feiticeiro
+            elif Jogador_1.type == "Feiticeiro":
+                if dano == 3 or dano == 2:
 
-                print("Bem sucedido \n")
-                dano_real = dano + Jogador_1.magic
-                print("você da", dano_real, "de dano")
+                    print("Bem sucedido \n")
+                    dano_real = dano + Jogador_1.magic
+                    print("você da", dano_real, "de dano")
 
-            elif dano > 3:
-                print("Crítico de muita sorte \n")
-                dano_real = dano + Jogador_1.magic
-                Monster.life -= dano_real
-                print("você da", dano_real, "de dano em", Monster.name)
-
-
-            elif dano > 1 and Monster.ship == 'Mistico':
-                dano_real = dano + Jogador_1.acc + Jogador_1.magic + Jogador_1.magic
-                print("Seu conhecimento materializa em uma onda de PODER BRUTO")
-                Monster.life -= dano_real
-                print(Monster.name, "tem partes do corpo desentegrado e toma", dano, "de dano")
-
-                print(dano_real, "com efeito")
-
-            else:
-                print("Mal sucedido \n")
-                print("Você erra o ataque...")
+                elif dano > 3:
+                    print("Crítico de muita sorte \n")
+                    dano_real = dano + Jogador_1.magic
+                    Monster.life -= dano_real
+                    print("você da", dano_real, "de dano em", Monster.name)
 
 
-        # Ataques do monge
-        elif Jogador_1.type == "Monge":
-            if dano == 3 or dano == 2:
-                print("Bem sucedido \n")
-                dano_real = dano + Jogador_1.acc or Jogador_1.magic
-                Monster.life -= dano_real
-                print("você da", dano_real, "de dano em", Monster.name)
+                elif dano > 1 and Monster.ship == 'Mistico':
+                    dano_real = dano + Jogador_1.acc + Jogador_1.magic + Jogador_1.magic
+                    print("Seu conhecimento materializa em uma onda de PODER BRUTO")
+                    Monster.life -= dano_real
+                    print(Monster.name, "tem partes do corpo desentegrado e toma", dano, "de dano")
 
-            elif dano > 3:
-                print("Crítico de muita sorte \n")
-                dano_real = dano + Jogador_1.acc or Jogador_1.magic
-                Monster.life -= dano_real
-                print("você da", dano_real, "de dano em", Monster.name)
+                    print(dano_real, "com efeito")
+
+                else:
+                    print("Mal sucedido \n")
+                    print("Você erra o ataque...")
 
 
-            elif dano > 1 and Monster.ship == 'Cósmico':
-                dano_real = dano + Jogador_1.acc + Jogador_1.magic
-                Monster.life -= dano_real
-                print("você da", dano_real, "de dano em", Monster.name)
-                # restaurar vida
-                Jogador_1.Life += dano_real
-                print("sua vida é restaurada", Jogador_1.life)
-                print("Você trancende e sua luz desfere uma luz restaura todo seu ser")
+            # Ataques do monge
+            elif Jogador_1.type == "Monge":
+                if dano == 3 or dano == 2:
+                    print("Bem sucedido \n")
+                    dano_real = dano + Jogador_1.acc or Jogador_1.magic
+                    Monster.life -= dano_real
+                    print("você da", dano_real, "de dano em", Monster.name)
 
-                print(dano_real, "com efeito")
+                elif dano > 3:
+                    print("Crítico de muita sorte \n")
+                    dano_real = dano + Jogador_1.acc or Jogador_1.magic
+                    Monster.life -= dano_real
+                    print("você da", dano_real, "de dano em", Monster.name)
 
-            else:
-                print("Mal sucedido \n")
-                print("Você erra o ataque...")
 
-    elif escc == 2:
-        print("tenho que fazer ainda")
+                elif dano > 1 and Monster.ship == 'Cósmico':
+                    dano_real = dano + Jogador_1.acc + Jogador_1.magic
+                    Monster.life -= dano_real
+                    print("você da", dano_real, "de dano em", Monster.name)
+                    # restaurar vida
+                    Jogador_1.Life += dano_real
+                    print("sua vida é restaurada", Jogador_1.life)
+                    print("Você trancende e sua luz desfere uma luz restaura todo seu ser")
 
-    elif escc == 3:
-        print("Tenho que fazer ainda")
+                    print(dano_real, "com efeito")
 
-    elif escc == 4:
-        print("tenho que fazer ainda")
+                else:
+                    print("Mal sucedido \n")
+                    print("Você erra o ataque...")
 
-    else:
-        print("tenho que fazer ainda")
+        elif escc == 2:
+            print("tenho que fazer ainda")
+
+        elif escc == 3:
+            print("Tenho que fazer ainda")
+
+        elif escc == 4:
+            print("tenho que fazer ainda")
+
+        else:
+            print("tenho que fazer ainda")
 
 def ataque_monster():
     dano = D10()
@@ -247,15 +251,13 @@ def ataque_monster():
 
 # valor sendo recebido pelo return, atraz do "Name_sans"======
 
-
-
 #codigo sendo execultado aqui.
-
 
 print("=====jogador 1=====")
 Name_sans = Jogador_name()
 classe = script_choice()
 Jogador_1 = (classe_player(classe, Name_sans))
-Monster = monster(num=2)
+Monster = monster(num=random.randint(1, 3))
 print(f"seu nome é {Jogador_1.name}: e sua classe é {Jogador_1.type} \n descrição: {Jogador_1.descri} \n Vida: {Jogador_1.life} \n Ação: {Jogador_1.acc} ")
 print(Monster.ship)
+batalha_person(Jogador_1, Monster).batalha()
