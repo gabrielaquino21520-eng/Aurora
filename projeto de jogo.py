@@ -1,6 +1,9 @@
 import random
-# agora sim porra !
-
+import climage
+import dados
+dados.D10()
+dados.D6()
+import os
 
 #A função coleta o dado e manda para o return=======
 
@@ -8,11 +11,6 @@ def Jogador_name():
     Name_sans = input("Olá jogador digite um nome para seu personagem: \n")
     print("seu nome é", Name_sans)
     return Name_sans
-
-
-#MELHORAR, colocar uma opeção de confirmação de código.
-
-#escolha da classe=======
 
 def script_choice():
     print("========escolha sua classe========")
@@ -65,9 +63,10 @@ class classe_player():
             self.forca = 0
             self.magic = (random.randint(1, 5))
 
-class monster():
+class Monster():
+
     def __init__(self, num):
-     self.num = int
+     self.num = int(num)
 
      if num == 1:
          self.ship = 'Animal'
@@ -96,46 +95,22 @@ class monster():
          self.dano_critico = random.randint(18, 28)
          self.condicao = "medo"
 
-def D10():
-    D10 = random.randint(1, 10)
-    if D10 <= 9 and D10 >= 3:
-        print("Você foi atingido", "Normal", D10)
-    elif D10 <= 2:
-        print("Você consegue desviar", "Errou", D10)
-    else:
-        print("Você é dilacerado", "Critico", D10)
 
-    return D10
+class choices_b:
 
-def D6():
-    D6 = random.randint(1, 6)
-    if D6 == 3 or D6 == 2:
-        int(D6)
-
-    elif D6 == 1:
-        int(D6)
-    else:
-        int(D6)
-
-    return D6
-
-class batalha_person():
     def __init__(self, Jogador_1, Monster):
         self.Jogador_1 = Jogador_1
         self.Monster = Monster
-
-    def batalha(self):
-        ec = ["Ataque", "Abilidade", "Checar", "Poções"]
-        print('1 -', ec[0], '2 -', ec[1], "\n" '3 -', ec[2], '4 -', ec[3], "\n")
-        escc = input(int())
-        if escc == 1:
-            dano = D6()
+        print("1 -Ataque", "2 -Abilidade ", "\n" "3 -Checar", "4 -Poções", "\n")
+        action = int(input())
+        if action == 1:
+            dano = dados.D6()
             # Ataques do caçador
             if Jogador_1.type == "Caçador":
                 if dano == 3 or dano == 2:
                     print("Bem sucedido \n")
                     dano_real = dano + Jogador_1.acc
-                    dano_real -= Monster.life
+                    Monster.life -= dano_real
                     print("você da", dano_real, "de dano em", Monster.name)
 
                 elif dano > 3:
@@ -198,7 +173,7 @@ class batalha_person():
 
                 elif dano > 1 and Monster.ship == 'Cósmico':
                     dano_real = dano + Jogador_1.acc + Jogador_1.magic
-                    Monster.life -= dano_real
+                    self.Monster.life -= dano_real
                     print("você da", dano_real, "de dano em", Monster.name)
                     # restaurar vida
                     Jogador_1.Life += dano_real
@@ -211,30 +186,31 @@ class batalha_person():
                     print("Mal sucedido \n")
                     print("Você erra o ataque...")
 
-        elif escc == 2:
+        elif action == 2:
             print("tenho que fazer ainda")
 
-        elif escc == 3:
+        elif action == 3:
             print("Tenho que fazer ainda")
 
-        elif escc == 4:
+        elif action == 4:
             print("tenho que fazer ainda")
 
         else:
             print("tenho que fazer ainda")
 
 def ataque_monster():
-    dano = D10()
+
+    dano = dados.D10()
     print(Monster.name," te atacou \n")
 
     if dano == 3 or dano == 2:
-        print("Bem sucedido \n")
+        print("Você foi atingido \n")
         dano_real = dano + Monster.acc
         dano_real -= Jogador_1.life
         print("você recebeu", dano_real, "de dano")
 
     elif dano > 3:
-        print("Crítico de muita sorte \n")
+        print("Você é dilacerado \n")
         dano_real = dano + Jogador_1.forca
         print("você recebeu", dano_real, "de dano")
 
@@ -245,19 +221,51 @@ def ataque_monster():
         print(dano_real, "com efeito")
 
     else:
-        print("Mal sucedido \n")
-        print("Você desvia")
+        print("Você consegue desviar \n")
+
+def meeting():
+    print(Monster.name, 'apareceu \n')
+
+    while Jogador_1.life > 0 and Monster.life > 0:
+
+        print(Monster.life)
+        Lobo_imagem = climage.convert('C:/Users/docpo/Downloads/lo/imagem/lobo.jpg', 'lobo_ansi', width=30)
+        print(Lobo_imagem)
+        choices_b(Jogador_1, Monster)
+
+        if Monster.life == 0:
+
+            print("parabéns, recebeu", 0, "de xp")
+            break
+
+        elif Jogador_1 == 0:
+            print("você fracassou melhore")
+            break
+
+
+
+
+
+
+
 
 
 # valor sendo recebido pelo return, atraz do "Name_sans"======
 
 #codigo sendo execultado aqui.
-
 print("=====jogador 1=====")
 Name_sans = Jogador_name()
 classe = script_choice()
+Monster = Monster(1)
 Jogador_1 = (classe_player(classe, Name_sans))
-Monster = monster(num=random.randint(1, 3))
-print(f"seu nome é {Jogador_1.name}: e sua classe é {Jogador_1.type} \n descrição: {Jogador_1.descri} \n Vida: {Jogador_1.life} \n Ação: {Jogador_1.acc} ")
-print(Monster.ship)
-batalha_person(Jogador_1, Monster).batalha()
+print(f"seu nome é {Jogador_1.name}: e sua classe é {Jogador_1.type} \n descrição: {Jogador_1.descri} \n Vida: {Jogador_1.life} \n Ação: {Jogador_1.acc} ", '\n')
+meeting()
+
+
+
+
+
+
+
+
+
